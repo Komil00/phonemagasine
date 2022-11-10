@@ -1,3 +1,6 @@
+import json
+
+from django.contrib.postgres.fields import ArrayField
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 
@@ -27,16 +30,27 @@ COLOR_CHOICES = (
 class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     modelname = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='')
+    instructions_image_list = ArrayField(models.ImageField(upload_to='', blank=True, null=True),
+                                         blank=True, null=True, size=15)
+
     memory = models.FloatField()
+    ram = models.FloatField()
     price = models.FloatField()
     color = models.CharField(max_length=40, choices=COLOR_CHOICES, default="BLACK")
     productquantity = models.IntegerField()
+
+    display_type = models.CharField(max_length=100)
+    display_size = models.FloatField()
+    display_resolution = models.CharField(max_length=100)
+    main_camera = models.CharField(max_length=150)
+    selfie_vamera = models.CharField(max_length=150)
+    battery_type = models.CharField(max_length=150)
 
     objects = models.Manager()
 
     def __str__(self):
         return self.modelname
+
 
 # @receiver(post_save, sender=Product)
 # def product_post_save(sender, instance, created, *args, **kwargs):
