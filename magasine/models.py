@@ -31,9 +31,6 @@ COLOR_CHOICES = (
 class Images(models.Model):
     image = models.ImageField(upload_to='')
 
-    def __str__(self):
-        return self.id
-
 
 class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
