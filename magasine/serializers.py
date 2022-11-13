@@ -8,7 +8,7 @@ from customuser.serializers import CustomUserListSerializer
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
-        fields = ['name']
+        fields = ['name', 'logo']
 
 
 class ImageSerializers(serializers.ModelSerializer):

@@ -11,6 +11,7 @@ from django.db.models.signals import pre_save, post_save
 
 class Brand(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)
+    logo = models.ImageField(upload_to='logo')
 
     def __str__(self):
         return self.name
@@ -29,6 +30,9 @@ COLOR_CHOICES = (
 
 class Images(models.Model):
     image = models.ImageField(upload_to='')
+
+    def __str__(self):
+        return self.id
 
 
 class Product(models.Model):
