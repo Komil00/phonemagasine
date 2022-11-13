@@ -12,7 +12,7 @@ from .serializers import (
     ProductListSerializers,
     OrderProductListSerializers,
     OrderProductPutSerializers, UserFavoriteProductListSerializers, UserFavoriteProductPostSerializers,
-    OrderProductPostSerializers, ProductDetailSerializers, ChangePriceSerializer
+    OrderProductPostSerializers, ProductListDetailSerializers, ChangePriceSerializer
 )
 from rest_framework.viewsets import ModelViewSet
 
@@ -30,7 +30,7 @@ class ProductViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action in ['list']:
             return ProductListSerializers
-        return ProductDetailSerializers
+        return ProductListDetailSerializers
 
 
 class OrderProductViewSet(ModelViewSet):
@@ -115,8 +115,6 @@ class UserFavoriteProductViewSet(ModelViewSet):
     serializer_class = UserFavoriteProductPostSerializers
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
-            return self.queryset.filter(user=self.request.user)
         return self.queryset.filter(user=self.request.user)
 
     def get_serializer_class(self):

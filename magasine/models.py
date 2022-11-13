@@ -27,11 +27,14 @@ COLOR_CHOICES = (
 )
 
 
+class Images(models.Model):
+    image = models.ImageField(upload_to='')
+
+
 class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     modelname = models.CharField(max_length=50)
-    instructions_image_list = ArrayField(models.ImageField(upload_to='', blank=True, null=True),
-                                         blank=True, null=True, size=15)
+    image = models.ManyToManyField(Images)
 
     memory = models.FloatField()
     ram = models.FloatField()

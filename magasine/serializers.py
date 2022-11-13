@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from .models import Product, OrderProduct, Brand, UserFavoriteProduct
+from .models import Product, OrderProduct, Brand, UserFavoriteProduct, Images
 from customuser.serializers import CustomUserListSerializer
 
 
@@ -11,8 +11,15 @@ class BrandSerializer(serializers.ModelSerializer):
         fields = ['name']
 
 
+class ImageSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Images
+        fields = ['image']
+
+
 class ProductListSerializers(serializers.ModelSerializer):
     brand = BrandSerializer()
+    image = ImageSerializers(many=True)
 
     class Meta:
         model = Product
@@ -21,10 +28,11 @@ class ProductListSerializers(serializers.ModelSerializer):
 
 class ProductListDetailSerializers(serializers.ModelSerializer):
     brand = BrandSerializer()
+    image = ImageSerializers(many=True)
 
     class Meta:
         model = Product
-        fields = ['id', 'brand', 'modelname', 'image', 'memory', 'price', 'color']
+        fields = '__all__'
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -38,14 +46,6 @@ class ProductListDetailSerializers(serializers.ModelSerializer):
 
 class ChangePriceSerializer(serializers.Serializer):
     price = serializers.FloatField(required=True)
-
-
-class ProductDetailSerializers(serializers.ModelSerializer):
-    brand = BrandSerializer(read_only=True)
-
-    class Meta:
-        model = Product
-        fields = '__all__'
 
 
 class OrderProductListSerializers(serializers.ModelSerializer):
