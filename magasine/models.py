@@ -28,14 +28,9 @@ COLOR_CHOICES = (
 )
 
 
-class Images(models.Model):
-    image = models.ImageField(upload_to='')
-
-
 class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     modelname = models.CharField(max_length=50)
-    image = models.ManyToManyField(Images)
 
     memory = models.FloatField()
     ram = models.FloatField()
@@ -54,6 +49,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.modelname
+
+
+class ProductImages(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='')
 
 
 # @receiver(post_save, sender=Product)

@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Product, OrderProduct, Brand, UserFavoriteProduct, Images
+from .models import Product, OrderProduct, Brand, UserFavoriteProduct, ProductImages
 
 # Register your models here.
-admin.site.register(Images)
+admin.site.register(ProductImages)
 
 
 @admin.register(Brand)
@@ -20,12 +20,17 @@ class CategoryModelAdmin(admin.ModelAdmin):
     logo_tag.short_description = 'Image'
 
 
+class ProductImageInline(admin.StackedInline):
+    model = ProductImages
+    extra = 0
+
+
 @admin.register(Product)
 class ProductModelAdmin(admin.ModelAdmin):
     list_display = ['modelname', 'brand', 'price']
     list_display_links = list_display
     search_fields = ('modelname',)
-    filter_horizontal = ("image",)
+    inlines = [ProductImageInline]
 
     # def image_tag(self, obj):
     #     if obj.image:

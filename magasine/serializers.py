@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from .models import Product, OrderProduct, Brand, UserFavoriteProduct, Images
+from .models import Product, OrderProduct, Brand, UserFavoriteProduct, ProductImages
 from customuser.serializers import CustomUserListSerializer
 
 
@@ -13,22 +13,22 @@ class BrandSerializer(serializers.ModelSerializer):
 
 class ImageSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Images
+        model = ProductImages
         fields = ['image']
 
 
 class ProductListSerializers(serializers.ModelSerializer):
     brand = BrandSerializer()
-    image = ImageSerializers(many=True)
+    images = ImageSerializers(read_only=True, many=True)
 
     class Meta:
         model = Product
-        fields = ['id', 'brand', 'modelname', 'image', 'memory', 'price', 'color']
+        fields = ['id', 'brand', 'modelname', 'images', 'memory', 'price', 'color']
 
 
 class ProductListDetailSerializers(serializers.ModelSerializer):
     brand = BrandSerializer()
-    image = ImageSerializers(many=True)
+    images = ImageSerializers(read_only=True, many=True)
 
     class Meta:
         model = Product
