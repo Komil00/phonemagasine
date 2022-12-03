@@ -52,6 +52,7 @@ class OrderProductViewSet(ModelViewSet):
             serializer.is_valid(raise_exception=True)
             product.productquantity -= orderproduct
             product.save()
+            serializer.save(user=self.request.user) # user pole ni zapros berayotgan user bn tuldiradi
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except ValueError:

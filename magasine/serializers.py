@@ -65,17 +65,12 @@ class OrderProductListSerializers(serializers.ModelSerializer):
 class OrderProductPostSerializers(serializers.ModelSerializer):
     class Meta:
         model = OrderProduct
-        fields = ['id', 'user', 'product', 'quantity']
+        fields = ['id', 'product', 'quantity']
 
     def validate_quantity(self, value):
         if value < 1:
             raise ValidationError("quantity 0 dan kop bolishi kerak")
         return value
-
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['total_price'] = instance.product.price * instance.quantity
-        return representation
 
 
 class OrderProductPutSerializers(serializers.ModelSerializer):
