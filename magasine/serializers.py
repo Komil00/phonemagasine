@@ -99,4 +99,4 @@ class UserFavoriteProductListSerializers(serializers.ModelSerializer):
 class UserFavoriteProductPostSerializers(serializers.ModelSerializer):
     class Meta:
         model = UserFavoriteProduct
-        fields = ['id', 'user', 'product']
+        fields = ['id', 'product']

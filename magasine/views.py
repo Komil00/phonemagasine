@@ -91,19 +91,6 @@ class OrderProductViewSet(ModelViewSet):
             return OrderProductPostSerializers
         return OrderProductPutSerializers
 
-    # @action(detail=True, methods=['put'])
-    # def change_price(self, request, pk):
-    #     print(request.POST['price'])
-    #     print(request)
-    #     try:
-    #         query = self.queryset.get(id=pk)
-    #         query.price = request.POST['price']
-    #         query.save()
-    #
-    #     except self.queryset.DoesNotExist:
-    #         return Response('not found', status=400)
-    #     return Response('success')
-
 
 class UserFavoriteProductViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -122,3 +109,9 @@ class UserFavoriteProductViewSet(ModelViewSet):
         if self.action in ['list']:
             return UserFavoriteProductListSerializers
         return UserFavoriteProductPostSerializers
+
+    def create(self, request, *args, **kwargs):
+        serializer = UserFavoriteProductPostSerializers(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=self.request.user) # user pole ni zapros berayotgan user bn tuldiradi
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
