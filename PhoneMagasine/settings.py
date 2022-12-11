@@ -9,13 +9,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = os.environ.get("SECRET_KEY")
 SECRET_KEY = 'django-insecure-0kyia#=ubod!gq!2@y0y)q4vuhq0j@*x7&=06wfe@xxs^rm^pr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get("DEBUG", default=1)))
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -85,24 +85,35 @@ WSGI_APPLICATION = 'PhoneMagasine.wsgi.application'
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'phonemagasine',
-#         'USER': 'postgres',
-#         'PASSWORD': "12345",
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
+#         'ENGINE': os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+#         'NAME': os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+#         'USER': os.environ.get("SQL_USER", "user"),
+#         'PASSWORD': os.environ.get("SQL_PASSWORD", "password"),
+#         'HOST': os.environ.get("SQL_HOST", "localhost"),
+#         'PORT': os.environ.get("SQL_PORT", "5432"),
 #     }
 # }
-#
+
 # import dj_database_url
 #
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'komiltuev',
+        'USER': 'komiltuev',
+        'PASSWORD': 'komiltuev',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -167,7 +178,14 @@ REST_FRAMEWORK = {
 
 
 }
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = 'komiltuev147@gmail.com' 
+EMAIL_HOST_PASSWORD = 'kbnsamquaazlybmx'
+EMAIL_PORT = 587
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),

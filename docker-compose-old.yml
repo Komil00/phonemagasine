@@ -1,0 +1,79 @@
+version: '3.7'
+services:
+  dm_db:
+    image: postgres:12
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+
+  django:
+    container_name: phonemagasine
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    command: bash -c "python /the/workdir/phonemagasine/manage.py migrate --noinput && python /the/workdir/phonemagasine/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/the/workdir/phonemagasine
+    ports:
+      - 8000:8000
+    depends_on:
+      - dm_db
+
+volumes:
+  pg_data:
+
+# version: '3'
+# services:
+#   django_recipe_api:
+#     build:
+#       context: . # Sets the directory for docker-compose to build.
+
+#     # Maps port on the local machine to port on Docker image
+#     ports:
+#       - "8000:8000"
+      
+#     volumes: 
+#     # Copy changes made to the project to your image in real-time.
+#       - .:/django_recipe_api
+#     # Handles the command used to run the project in the Docker container.  
+#     command: sh -c "python manage.py runserver 0.0.0.0:8000" 
+
+#     depends_on:
+#       - db
+
+#   db:
+#     image: postgres:10-alpine
+
+# version: '3.8'
+
+# services:
+#   web:
+#     build: ./app
+#     command: python manage.py runserver 0.0.0.0:8000
+#     volumes:
+#       - ./app/:/usr/src/app/
+#     ports:
+#       - 8000:8000
+#     env_file:
+#       - ./.env.dev
+
+# version: '3.8'
+
+# services:
+#   web:
+#     build: ./app
+#     command: python manage.py runserver 0.0.0.0:8000
+#     volumes:
+#       - ./app/:/usr/src/app/
+#     ports:
+#       - 8000:8000
+
+#     depends_on:
+#       - db
+#   db:
+#     image: postgres:13.0-alpine
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data/
+
+
+# volumes:
+#   postgres_data:
