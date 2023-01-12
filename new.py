@@ -243,3 +243,20 @@ import math
 # a = Progress()
 # print(a)
 
+# import psycopg2
+
+# connection = psycopg2.connect(database="postgres",
+#                         host="localhost",
+#                         user="postgres",
+#                         password="12345",
+#                         port="5432")
+# cursor = connection.cursor()
+# # SQL query to create a new table
+# create_table_query = '''CREATE TABLE komilllllll
+#         (ID INT PRIMARY KEY     NOT NULL,
+#         MODEL           TEXT    NOT NULL,
+#         PRICE         REAL); '''
+# # Execute a command: this creates a new table
+# cursor.execute(create_table_query)
+# connection.commit()
+# print("Table created successfully in PostgreSQL ")
